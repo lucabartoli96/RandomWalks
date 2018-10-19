@@ -7,7 +7,8 @@
      * Parametri delle passeggiate aleatorie
      */
     var N = 30, //lunghezza passeggiata
-        W = 10;  //numero passeggiate
+        W = 10,  //numero passeggiate
+        K = 5; //altro parametro
     
     /**
      *  Costanti animazione
@@ -166,9 +167,9 @@
             
             html += 
                 "<tr>" + 
-                    "<td>" + stat.msg(N/2) + "</td>" + 
-                    "<td>" + stat.law(N/2) + "</td>" + 
-                    "<td>" + stat.experiment(walks) + "</td>" + 
+                    "<td>" + stat.msg(N/2, K) + "</td>" + 
+                    "<td>" + stat.law(N/2, K) + "</td>" + 
+                    "<td>" + stat.experiment(walks, K) + "</td>" + 
                 "</tr>";
             
         });
@@ -188,25 +189,50 @@
         
         var inputN = document.getElementsByName("N")[0],
             inputW = document.getElementsByName("W")[0],
+            inputK = document.getElementsByName("K")[0],
             lengthP = document.getElementById("length"),
+            kP = document.getElementById("k"),
             submitted = function(event) {
             
                 if ( event ) {
                     event.preventDefault();
                 }
-            
+                
                 N = 2*Number(inputN.value);
                 lengthP.innerHTML = N;
                 W = Number(inputW.value);
-            
+                
+                
+                K = Number(inputK.value);
+                kP.innerHTML = 2*K;
+                
                 refresh();
-            
+                
         };
         
         
         inputN.addEventListener("input", function() {
             lengthP.innerHTML = 2*Number(inputN.value);
+            
+            if ( Number(inputK.value) > Number(inputN.value) ) {
+                inputK.value = Number(inputN.value);
+            }
+            
+            inputK.max = Number(inputN.value)
+            kP.innerHTML = 2*Number(inputK.value);
+            
         });
+        
+        inputK.addEventListener("input", function() {
+            kP.innerHTML = 2*Number(inputK.value);
+        });
+        
+        if ( Number(inputK.value) > Number(inputN.value) ) {
+            inputK.value = Number(inputN.value);
+        }
+
+        inputK.max = Number(inputN.value)
+        kP.innerHTML = 2*Number(inputK.value);
         
         document.getElementsByTagName("form")[0]
             .addEventListener("submit", submitted);

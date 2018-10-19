@@ -266,6 +266,61 @@ var statList = (function() {
         
     });
     
+    
+    
+    /**
+     * TODO
+     * Sempre maggiore e minore al tempo 2m-1
+     */
+    list.push({
+        
+        "msg" : function(m, k) {
+            
+            var msg = "P(";
+            
+            if ( m > 1 ) {
+                msg += "S<sub>1</sub>&ge;0,";
+                
+                if ( m > 2) {
+                    msg += "... ,"; 
+                }
+                
+                msg += "S<sub>" + (2*m-2) + "</sub>&ge;0, ";
+            }
+            
+            return msg + " S<sub>" + (2*m-1) + "</sub>&lt;0)";
+        },
+        "law" : function(m) {
+            return f_2(m);
+        },
+        "experiment" : function(walks) {
+            
+            var num = 0;
+            
+            for ( let i = 0 ; i < walks.length ; i++ ) {
+                
+                var walk = walks[i],
+                    s = 1,
+                    val = walk[0];
+                
+                for (s = 1; s < walk.length-1 && val >= 0; s++ ) {
+                    val += walk[s];
+                }
+                
+                if ( s === walk.length-1 && val < 0 ) {
+                    num++;
+                }
+                
+            }
+            
+            return num/walks.length;
+            
+        }
+        
+    });
+    
+    
+    
     return list;
     
     
