@@ -6,13 +6,13 @@
     /**
      * Parametri delle passeggiate aleatorie
      */
-    var N = 300, //lunghezza passeggiata
-        W = 20;  //numero passeggiate
+    var N = 30, //lunghezza passeggiata
+        W = 10;  //numero passeggiate
     
     /**
      *  Costanti animazione
      */
-    var DELAY = 10;
+    var TIME = 400;
     
     /**
      * Varibili che memorizzano i cammini
@@ -22,7 +22,7 @@
     /**
      *  Variabili legate a disegno e animazione
      */    
-    var canvas, ctx, drawnX;
+    var canvas, ctx, drawnX, handle;
     var animate = true;
     var colors = [];
 
@@ -41,22 +41,15 @@
         ctx.lineTo(canvas.width, y);
         ctx.stroke();
         
-        
         ctx.beginPath();
         
         ctx.lineWidth = 0.5;
         ctx.strokeStyle = "rgba(0, 0, 0, 0.6)";
         
-        console.log(H);
-        
         if ( H < 5 ) {
-            let times = Math.floor(5/H);
+            let times = Math.ceil(5/H);
             H = H*times;
         }
-        
-        console.log(H);
-        
-        
         
         for ( let j = 1; j*H <= y; j++) {
             ctx.moveTo(0, y-j*H);
@@ -73,10 +66,43 @@
         ctx.stroke();
     }
     
+    
+    function init_colors() {
+        
+        if ( colors.length === 0 ) {
+            for ( let i = 0 ; i < W ; i++) {
+                //random color
+                colors.push("#"+((1<<24)*Math.random()|0).toString(16)); 
+            }
+        } 
+    }
+    
+    function draw_step(H, v, s) {
+        
+        for ( let i = 0 ; i < W ; i++ ) {
+
+            var from_x = s*H,
+                from_y = v[i],
+                to_x   = (s+1)*H,
+                to_y   = v[i] - walks[i][s]*H;
+
+            ctx.beginPath();
+            ctx.strokeStyle = colors[i];
+            ctx.moveTo(from_x, from_y);
+            ctx.lineTo(to_x, to_y);
+            ctx.stroke();
+
+            v[i] = to_y;
+        }
+    }
+    
+    
     /**
      *  Funzione che disegna il grafico, animando se è la prima volta
      */
     function draw() {
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         var H = canvas.width/N;
         
@@ -84,76 +110,42 @@
             v = new Array(W).fill(y);
         
         draw_plane(H, y);
-        
-        
-        if ( colors.length === 0 ) {
-            for ( let i = 0 ; i < W ; i++) {
-                colors.push("#"+((1<<24)*Math.random()|0).toString(16)); //random color
-            }
-        } 
-        
+        init_colors();
         
         ctx.lineWidth = 1.5;
         
-        if ( animate ) {
-            
-            var s = 0;
+        var delay = TIME/N;
         
-            var handle = setInterval(function() {
-
-                for ( let i = 0 ; i < W ; i++ ) {
-
-                    var from_x = s*H,
-                        from_y = v[i],
-                        to_x   = (s+1)*H,
-                        to_y   = v[i] + walks[i][s]*H;
-
-                    ctx.beginPath();
-                    ctx.strokeStyle = colors[i];
-                    ctx.moveTo(from_x, from_y);
-                    ctx.lineTo(to_x, to_y);
-                    ctx.stroke();
-
-                    v[i] = to_y;
-                }
-
-                s++;
-
-                if ( s === N ) {
-                    clearInterval(handle);
-                }
-
-            }, DELAY);
-            
-        } else {
-            
-            for ( let i = 0 ; i < W ; i++ ) {
-
-                var walk = walks[i];
-                                
-                ctx.beginPath();
-                ctx.strokeStyle = colors[i];
-                ctx.moveTo(0, y);
-
-                for ( let s = 1 ; s < N; s++ ) {
-
-                    y = y + walk[s]*H;
-                    ctx.lineTo(s*H, y);
-                }
-
-                ctx.stroke();
-                
-                y = canvas.height/2;
-
-            }
-            
+        if ( delay < 1 ) {
+            delay = 0.01;
         }
+            
+        var s = 0;
+
+        handle = setInterval(function() {
+
+            draw_step(H, v, s);
+            s++;
+
+            if ( s === N ) {
+                clearInterval(handle);
+                handle = null;
+                compute_statistics();
+            }
+
+        }, delay);
         
     }
     
     
     function refresh() {
         
+        if ( handle !== null ) {
+            clearInterval(handle);
+        }
+        
+        ctx.strokeStyle = "rgb(0, 0, 0)";
+        colors = [];
         walks = []
         
         for ( let i = 0 ; i < W ; i++ ) {
@@ -164,16 +156,62 @@
     }
     
     
+    function compute_statistics() {
+        
+        var tbody = document.getElementsByTagName("tbody")[0];
+
+        var html = "";
+        
+        statList.forEach(function(stat) {
+            
+            html += 
+                "<tr>" + 
+                    "<td>" + stat.msg(N/2) + "</td>" + 
+                    "<td>" + stat.law(N/2) + "</td>" + 
+                    "<td>" + stat.experiment(walks) + "</td>" + 
+                "</tr>";
+            
+        });
+        
+        tbody.innerHTML = html;
+        
+    }
+    
+    
     window.onload = function() {
         
         canvas = document.getElementsByTagName("canvas")[0];
         ctx = canvas.getContext("2d");
         
-        canvas.width = document.body.clientWidth-200;
-        canvas.height = document.body.clientHeight-50;
+        canvas.width = canvas.parentNode.clientWidth-200;
+        canvas.height = canvas.parentNode.clientHeight-50;
         
-        refresh();
+        var inputN = document.getElementsByName("N")[0],
+            inputW = document.getElementsByName("W")[0],
+            lengthP = document.getElementById("length"),
+            submitted = function(event) {
+            
+                if ( event ) {
+                    event.preventDefault();
+                }
+            
+                N = 2*Number(inputN.value);
+                lengthP.innerHTML = N;
+                W = Number(inputW.value);
+            
+                refresh();
+            
+        };
         
+        
+        inputN.addEventListener("input", function() {
+            lengthP.innerHTML = 2*Number(inputN.value);
+        });
+        
+        document.getElementsByTagName("form")[0]
+            .addEventListener("submit", submitted);
+        
+        submitted();
     }
     
     

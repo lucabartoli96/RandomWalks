@@ -9,10 +9,174 @@ body {
     height: 100vh;
 }
 
+form {
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+input[type="submit"] {
+    position: relative;
+    color: black;
+    margin-top: 0;
+    margin-left: 55px;
+    height: 50px;
+    font-size: 30px;
+    background-color: #111;
+    color: white;
+    width: auto;
+}
+
+
+.group {
+  width: 160px;
+  height: 60px;
+  overflow: hidden;
+  position: relative;
+  float: left;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 10px;
+}
+
+label {
+  position: absolute;
+  top: 0px;
+  color: rgba(255, 255, 255, 0.5);
+  font: 400 20px Roboto;
+  cursor: text;
+  transition: .25s ease;
+}
+
+input {
+  display: block;
+  width: 100%;
+  height: 30px;
+  margin-top: 30px;
+  border: none;
+  color: white;
+  background: #333;
+  font-size: 20px;
+  transition: .3s ease;
+}
+
+#length {
+  display: block;
+  width: 100%;
+  height: 30px;
+  margin-top: 30px;
+  border: none;
+  color: white;
+  background: #333;
+  font-size: 20px;
+  transition: .3s ease;
+}
+
+.spinner-button {
+  position: absolute;
+  cursor: default;
+  z-index: 2;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  width: 14.5px;
+  text-align: center;
+  margin: 0px;
+  pointer-events: none;
+  height: 10px;
+  line-height: 10px;
+}
+
+.inc-button {
+  right: 0;
+  top: 37px;
+}
+
+.dec-button {
+  right: 0;
+top: 47px;
+}
+
+main {
+    height: 100%;
+    margin-left: 160px;
+    font-size: 28px;
+    padding: 0px 10px;
+}
+
 canvas {
-    position: absolute;
+    position: relative;
+    display: block;
     top: 50%;
     left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%)
+    transform: translate(-50%, -50%);
+}
+
+
+.wrap-table {
+    position: relative;
+    width: 80%;
+    top: 10%;
+    left: 10%;
+    background-color: #FFF;
+}
+
+table {
+    width: 100%;
+    background-color: #fff;
+}
+
+tr.head th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+
+tr td {
+  padding-top: 5px;
+  padding-bottom: 5px;
+    text-align: center;
+}
+
+.table td {
+  font-family: Roboto;
+  font-size: 14px;
+  color: #808080;
+  line-height: 1.4;
+}
+
+.table th {
+  font-family: Roboto;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.4;
+  background-color: #111;
+}
+
+.table tr:hover td {
+  background-color: #83d160;
+  color: #fff;
+}
+
+.table .hov-column {
+  background-color: #83d160;
+  color: #fff;
+}
+
+.table .hov-column-head {
+  background-color: #484848 !important;
+}
+
+.table tr td:hover {
+  background-color: #57b846;
+  color: #fff;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #eaf8e6;
 }

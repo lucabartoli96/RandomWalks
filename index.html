@@ -3,11 +3,52 @@
     <head>
         <meta charset="utf-8"/>
         <script type="text/javascript" src="randomWalk.js"></script>
+        <script type="text/javascript" src="statistics.js"></script>
         <script type="text/javascript" src="main.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link type="text/css" rel="stylesheet" href="layout.css"/>
     </head>
     <body>
-        <canvas>
-        </canvas>
+        
+        <form>
+            <input type="submit" class="fa fa-line-chart" value="&#xf201;"/>
+            <div class="group">
+                <input type="number" name="N" min="1" value="30"/>
+                <div class="spinner-button inc-button">▲</div>
+                <div class="spinner-button dec-button">▼</div>
+                <label for="N">Length/2</label>
+            </div>
+            <div class="group">
+                <p id="length">20</p>
+                <label>Length</label>
+            </div>
+            <div class="group">
+                <input type="number" name="W" min="1" value="10"/>
+                <div class="spinner-button inc-button">▲</div>
+                <div class="spinner-button dec-button">▼</div>
+                <label for="n">Walks</label>
+            </div>
+        </form>
+
+        <main>
+            <canvas>
+            </canvas>
+            <div class="wrap-table">
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr class="head">
+                                <th class="column1"> Distribution </th>
+                                <th> Law </th>
+                                <th> Experiment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+        
     </body>
 </html>
