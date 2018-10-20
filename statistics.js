@@ -283,22 +283,11 @@ var statList = (function() {
             
             var msg = "P(S<sub>" + (2*k) + "</sub>=0, ";
             
-            msg += "S<sub>" + (2*k+1) + "</sub>:&gt;0";
-            
-            
-//            if ( m > 1 ) {
-//                msg += "S<sub>1</sub>&ge;0,";
-//                
-//                if ( m > 2) {
-//                    msg += "... ,"; 
-//                }
-//                
-//                msg += "S<sub>" + (2*m-2) + "</sub>&ge;0, ";
-//            }
+            msg += "S<sub>" + (2*k+1) + "</sub>:&ne;0";
             
             msg += "... ,"; 
             
-            return msg + " S<sub>" + (2*m) + "</sub>&gt;0)";
+            return msg + " S<sub>" + (2*m) + "</sub>&ne;0)";
         },
         "law" : function(m, k) {
             return u_2(k)*u_2(m-k);
@@ -307,8 +296,9 @@ var statList = (function() {
             
             var num = 0;
             
+            //HACK
             k = k-0.5; // Per il problema che sulle formule sono indicizzati da 1
-                     // e la matrice da 0
+                      // e la matrice da 0
             
             for ( let i = 0 ; i < walks.length ; i++ ) {
                 
@@ -324,25 +314,15 @@ var statList = (function() {
     
                     val += walk[2*k+1]; 
                     
-                    for (s = 2*k+2; s < walk.length && val > 0 ; s++ ) {
+                    for (s = 2*k+2; s < walk.length && val !== 0 ; s++ ) {
                         val += walk[s];
                     }
                     
-                    if ( s === walk.length && val > 0 ) {
+                    if ( s === walk.length && val !== 0 ) {
                         num++;
                     }
                 
                 }
-                
-                
-                
-//                for (s = 0; s < walk.length && (s !== 2*k || val === 0) &&  (s <= 2*k || val > 0) ; s++ ) {
-//                    val += walk[s];
-//                }
-                
-//                if ( s === walk.length && val > 0 ) {
-//                    num++;
-//                }
                 
             }
             
