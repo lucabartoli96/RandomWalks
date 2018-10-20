@@ -65,6 +65,15 @@
         }
         
         ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.strokeStyle = "#111";
+        ctx.lineWidth = 1;
+        
+        ctx.moveTo(2*K*H, 0);
+        ctx.lineTo(2*K*H, canvas.height);
+        
+        ctx.stroke();
     }
     
     
