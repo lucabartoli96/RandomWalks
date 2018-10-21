@@ -156,7 +156,7 @@ var statList = (function() {
                     s = 1,
                     val = walk[0];
                 
-                for (s = 1; s < walk.length && val !== 0; s++ ) {
+                for ( ; s < walk.length && val !== 0; s++ ) {
                     val += walk[s];
                 }
                 
@@ -203,7 +203,7 @@ var statList = (function() {
                     s = 1,
                     val = walk[0];
                 
-                for (s = 1; s < walk.length && val !== 0; s++ ) {
+                for ( ; s < walk.length && val !== 0; s++ ) {
                     val += walk[s];
                 }
                 
@@ -256,7 +256,7 @@ var statList = (function() {
                     s = 1,
                     val = walk[0];
                 
-                for (s = 1; s < walk.length-1 && val >= 0; s++ ) {
+                for ( ; s < walk.length-1 && val >= 0; s++ ) {
                     val += walk[s];
                 }
                 
@@ -289,7 +289,11 @@ var statList = (function() {
             
             msg += "S<sub>" + (2*k+1) + "</sub>:&ne;0";
             
-            msg += "... ,"; 
+            if ( 2*k+1 < 2*m-1 ) {
+                
+                msg += "... ,";
+                
+            }
             
             return msg + " S<sub>" + (2*m) + "</sub>&ne;0)";
         },
@@ -311,7 +315,7 @@ var statList = (function() {
                     s = 0,
                     val = 0;
                 
-                for (s = 0; s <= 2*k ; s++ ) {
+                for ( ; s <= 2*k ; s++ ) {
                     val += walk[s];
                 }
                 
@@ -337,6 +341,71 @@ var statList = (function() {
         
     });
     
+    
+    /**
+     * Probabilità che sia 0 per la prima volta al tempo 2k
+     * e che poi termini in 0.
+     */
+    list.push({
+        
+        "msg" : function(m, k) {
+            
+            if ( k === 0 ) {
+                return undefined;
+            }
+            
+            
+            var msg = "P(S)<sub>1</sub>&ne;0,";
+            
+            if ( k > 1 ) {
+                msg += " ..., S<sub>" + (2*k-1) + "</sub>&ne;0,";
+            }
+            
+            msg += "S<sub>" + (2*k) + "</sub>=0, ";
+            
+            return msg + " S<sub>" + (2*m) + "</sub>=0)";
+        },
+        "law" : function(m, k) {
+            
+            return f_2(k)*u_2(m-k);
+        },
+        "experiment" : function(walks, k) {
+            
+            var num = 0;
+
+            //HACK
+            k = k-0.5; // Per il problema che sulle formule sono indicizzati da 1
+                       // e la matrice da 0
+            
+            for ( let i = 0 ; i < walks.length ; i++ ) {
+                
+                var walk = walks[i],
+                    s = 1,
+                    val = walk[0];
+                
+                for ( ; s <= 2*k && val !== 0; s++ ) {
+                    val += walk[s];
+                }
+                
+                if ( s === 2*k+1 && val === 0 ) {
+                    
+                    for ( ; s < walk.length ; s++ ) {
+                        val += walk[s];
+                    }
+                    
+                    if ( val === 0 ) {
+                        num++;
+                    }
+                
+                }
+                
+            }
+            
+            return num/walks.length;
+            
+        }
+        
+    });
     
     
     return list;
