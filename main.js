@@ -174,12 +174,19 @@
         
         statList.forEach(function(stat) {
             
-            html += 
+            var msg = stat.msg(N/2, K);
+            
+            if ( msg ) {
+                
+                html += 
                 "<tr>" + 
-                    "<td>" + stat.msg(N/2, K) + "</td>" + 
+                    "<td>" + msg + "</td>" + 
                     "<td>" + stat.law(N/2, K) + "</td>" + 
                     "<td>" + stat.experiment(walks, K) + "</td>" + 
                 "</tr>";
+                
+            }
+            
             
         });
         
@@ -211,16 +218,9 @@
                 lengthP.innerHTML = N;
                 W = Number(inputW.value);
                 
-                inputK.disabled = N <= 4;
+                updateK();
                 
                 K = Number(inputK.value);
-                
-                if ( 2*K > N-2 ) {
-                    K =  N/2;
-                    inputK.value = K;
-                }
-
-                inputK.max = N/2;
                 kP.innerHTML = 2*K;
                 
                 refresh();
@@ -228,17 +228,31 @@
         };
         
         
-        inputN.addEventListener("input", function() {
-            lengthP.innerHTML = 2*Number(inputN.value);
+        var updateK = function() {
             
-            if ( 2*Number(inputK.value) > Number(inputN.value)-1 ) {
-                inputK.value = Number(inputN.value)-1;
+            var max = Number(inputN.value)-1,
+                textK = inputK.value, 
+                tempK = Number(textK);
+            
+            
+            if ( max === 0 ) {
+                inputK.value = "";
+            } else if ( textK === "" ) {
+                inputK.value = Math.round((max+1)/2);
+            } else if ( tempK > max ) {
+                inputK.value = max;
             }
             
+            inputK.max = max;
             
-            inputK.max = Number(inputN.value)-1;
-            kP.innerHTML = 2*Number(inputK.value);
+            kP.innerHTML = max===0 ? "" : 2*Number(inputK.value);
             
+        }
+        
+        
+        inputN.addEventListener("input", function() {
+            lengthP.innerHTML = 2*Number(inputN.value);
+            updateK();
         });
         
         inputK.addEventListener("input", function() {

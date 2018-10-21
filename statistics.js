@@ -281,6 +281,10 @@ var statList = (function() {
         
         "msg" : function(m, k) {
             
+            if ( k === 0 ) {
+                return undefined;
+            }
+            
             var msg = "P(S<sub>" + (2*k) + "</sub>=0, ";
             
             msg += "S<sub>" + (2*k+1) + "</sub>:&ne;0";
@@ -290,12 +294,13 @@ var statList = (function() {
             return msg + " S<sub>" + (2*m) + "</sub>&ne;0)";
         },
         "law" : function(m, k) {
+            
             return u_2(k)*u_2(m-k);
         },
         "experiment" : function(walks, k) {
             
             var num = 0;
-            
+
             //HACK
             k = k-0.5; // Per il problema che sulle formule sono indicizzati da 1
                       // e la matrice da 0
