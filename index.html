@@ -2,62 +2,33 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <script type="text/javascript" src="randomWalk.js"></script>
-        <script type="text/javascript" src="statistics.js"></script>
-        <script type="text/javascript" src="main.js"></script>
+        <script type="text/javascript" src="index.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link type="text/css" rel="stylesheet" href="layout.css"/>
+        <link type="text/css" rel="stylesheet" href="css/main.css"/>
+        <link type="text/css" rel="stylesheet" href="css/table.css"/>
+        <link type="text/css" rel="stylesheet" href="css/select.css"/>
     </head>
     <body>
         
         <form>
+            <div class="styled-select black rounded">
+              <select>
+                  <option value="sim_rand_walks">Simmetric Random Walks</option>
+                  <option value="rand_walks">Random Walks</option>
+                  <option value="galton_watson">Galton Watson Branching</option>
+              </select>
+            </div>
+            
             <input type="submit" class="fa fa-line-chart" value="&#xf201;"/>
-            <div class="group">
-                <input type="number" name="N" min="1" value="30"/>
-                <div class="spinner-button inc-button">▲</div>
-                <div class="spinner-button dec-button">▼</div>
-                <label for="N">Length/2</label>
-            </div>
-            <div class="group">
-                <p class="input" id="length">20</p>
-                <label>Length</label>
-            </div>
-            <div class="group">
-                <input type="number" name="W" min="1" value="10"/>
-                <div class="spinner-button inc-button">▲</div>
-                <div class="spinner-button dec-button">▼</div>
-                <label for="n">Walks</label>
-            </div>
-            <div class="group">
-                <input type="number" name="K" min="1" value="10"/>
-                <div class="spinner-button inc-button">▲</div>
-                <div class="spinner-button dec-button">▼</div>
-                <label for="K">K</label>
-            </div>
-            <div class="group">
-                <p class="input" id="k"></p>
-                <label>2K</label>
-            </div>
+            
+            <section>
+                <!-- Content to be loaded from "path/form.html" -->
+            </section>
+            
         </form>
 
         <main>
-            <canvas>
-            </canvas>
-            <div class="wrap-table">
-                <div class="table">
-                    <table>
-                        <thead>
-                            <tr class="head">
-                                <th class="column1"> Distribution </th>
-                                <th> Law </th>
-                                <th> Experiment</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <!-- Content to be loaded from "path/main.html" -->
         </main>
         
     </body>
