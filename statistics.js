@@ -355,7 +355,7 @@ var statList = (function() {
             }
             
             
-            var msg = "P(S)<sub>1</sub>&ne;0,";
+            var msg = "P(S<sub>1</sub>&ne;0,";
             
             if ( k > 1 ) {
                 msg += " ..., S<sub>" + (2*k-1) + "</sub>&ne;0,";
